@@ -21,7 +21,8 @@
 
 #define maxPreset 14
 
-#define enableBlink true
+// Set this to "true" to enable debugging blinks
+#define enableBlink false
 
 unsigned long idleLastEvent;
 
@@ -40,13 +41,13 @@ int presets[][4] = {
   {255, 0,   0,   PRESET_COLOR}, // Red
   {255, 37,  0,   PRESET_COLOR}, // Orange
   {255, 255, 0,   PRESET_COLOR}, // Yellow
-  {37,  255, 37, PRESET_COLOR}, // Light Green
+  {37,  255, 37,  PRESET_COLOR}, // Light Green
   {0,   255, 0,   PRESET_COLOR}, // Green
   {0,   0,   255, PRESET_COLOR}, // Blue
   {37,  37,  255, PRESET_COLOR}, // Light Blue
   {115, 0,   255, PRESET_COLOR}, // Purple
   {128, 37,  255, PRESET_COLOR}, // Violet
-  {255, 0,   37, PRESET_COLOR}, // Pink
+  {255, 0,   37,  PRESET_COLOR}, // Pink
   {255, 37,  114, PRESET_COLOR}, // Light Pink
   {255, 255, 255, PRESET_COLOR}, // White
   {1,   12, 2000, PRESET_CYCLE}, // Slow color cycle
@@ -69,7 +70,7 @@ void runPreset(int preset) {
     applyLedPreset(preset);
   }
   if (presetType == PRESET_OFF) {
-    applyLedPreset(preset);
+    applyLedPreset(preset);  // With the current sleep mechanism, we don't behave any differently when we're off
   }
   if (presetType == PRESET_CYCLE) {
     doCycler(preset);
@@ -80,7 +81,7 @@ void runPreset(int preset) {
   }
 }
 
-static void updateActivity() {
+static void updateActivity() {  // Update our activity for idle detection
   idleLastEvent = millis();
 }
 
@@ -157,8 +158,8 @@ static void pollButtons() { // !!!!!!!!!!!!!!!!!!!!! This isn't working because 
   prevButton.update(digitalRead(prevButtonPin));
 }
 
-void blinkOnce() {
-  //blinkColor(255, 255, 255);
+void blinkOnce() {  // Blink a predetermined color
+  blinkColor(255, 255, 255);
 }
 
 void blinkColor(int red, int green, int blue) {
